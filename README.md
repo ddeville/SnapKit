@@ -16,7 +16,6 @@ Setup the buildpack:
 
 Ensure that Heroku can find the phantom.js binary:
 ```
-	heroku config:add \
-	  PATH="/usr/local/bin:/usr/bin:/bin:/app/vendor/phantomjs/bin" \
-	  LD_LIBRARY_PATH="/usr/local/lib:/usr/lib:/lib:/app/vendor/phantomjs/lib"
+	heroku config:add PATH="/usr/local/bin:/usr/bin:/bin:/app/vendor/phantomjs/bin"
+	heroku config:add LD_LIBRARY_PATH="/usr/local/lib:/usr/lib:/lib:/app/vendor/phantomjs/lib"
 ```

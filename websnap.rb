@@ -34,7 +34,10 @@ get '/snap' do
   
   halt 400, json_error('The URL is not valid') unless url.kind_of? URI::HTTP;
   
-  response = `#phantomjs #{WEBSNAPJS_PATH} -url #{url.to_s}`;
+  response = `phantomjs #{WEBSNAPJS_PATH} -url #{url.to_s}`;
+  
+  puts 'RESPONSE'
+  puts response
   
   begin
     responseJSON = JSON.parse response;

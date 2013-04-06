@@ -49,6 +49,8 @@ function snap() {
 		imageData: imageData,
 	};
 	
+	console.log('ERROR');
+	
 	console.log(JSON.stringify(result));
 	phantom.exit(0);
 }
