@@ -35,5 +35,17 @@ get '/snap' do
   halt 400, json_error('The URL is not valid') unless url.kind_of? URI::HTTP;
   
   response = `phantomjs #{WEBSNAPJS_PATH} -url #{url.to_s}`;
-  response
+  
+  begin
+    responseJSON = JSON.parse response;
+  rescue JSON::JSONError
+    halt 500, json_error('The websnap could not be processed (error parsing)');
+  end
+  
+  title = responseJSON['title'];
+  image = responseJSON['imageData'];
+  
+  halt 500, json_error('The websnap could not be processed (missing values in the response)') unless (responseJSON && image);
+  
+  {:title => title, :image => image}.to_json;
 end
