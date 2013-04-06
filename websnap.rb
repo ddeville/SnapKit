@@ -36,9 +36,6 @@ get '/snap' do
   
   response = `phantomjs #{WEBSNAPJS_PATH} -url #{url.to_s}`;
   
-  puts 'RESPONSE'
-  puts response
-  
   begin
     responseJSON = JSON.parse response;
   rescue JSON::JSONError
