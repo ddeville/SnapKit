@@ -3,7 +3,6 @@ require 'json'
 require 'uri'
 
 helpers do
-  PHANTOMJS_PATH = File.expand_path('../phantomjs', __FILE__);
   WEBSNAPJS_PATH = File.expand_path('../websnap.js', __FILE__);
   
   def json_error(error)
@@ -35,7 +34,7 @@ get '/snap' do
   
   halt 400, json_error('The URL is not valid') unless url.kind_of? URI::HTTP;
   
-  response = `#{PHANTOMJS_PATH} #{WEBSNAPJS_PATH} -url #{url.to_s}`;
+  response = `#phantomjs #{WEBSNAPJS_PATH} -url #{url.to_s}`;
   
   begin
     responseJSON = JSON.parse response;
