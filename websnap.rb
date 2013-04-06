@@ -18,6 +18,9 @@ get '/' do
   snapRequest = {'snap' => {
     :method => 'GET',
     :uri => '/snap',
+    :parameters => [
+        'url', 'viewport_width', 'viewport_height', 'user_agent'
+      ],
   }};
   {'requests' => [snapRequest]}.to_json;
 end
@@ -34,7 +37,14 @@ get '/snap' do
   
   halt 400, json_error('The URL is not valid') unless url.kind_of? URI::HTTP;
   
-  response = `phantomjs #{WEBSNAPJS_PATH} -url #{url.to_s}`;
+  parameters = "-url #{url.to_s}"
+  parameters << " -viewport-width #{params[:viewport_width]}" if params[:viewport_width]
+  parameters << " -viewport-height #{params[:viewport_height]}" if params[:viewport_height]
+  parameters << " -useragent #{params[:user_agent]}" if params[:user_agent]
+  
+  cmd = "phantomjs #{WEBSNAPJS_PATH} #{parameters}"
+  
+  response = `#{cmd}`;
   
   begin
     responseJSON = JSON.parse response;
