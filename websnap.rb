@@ -39,13 +39,13 @@ get '/snap' do
   begin
     responseJSON = JSON.parse response;
   rescue JSON::JSONError
-    halt 500, json_error('The websnap could not be processed');
+    halt 500, json_error('The websnap could not be processed (error parsing)');
   end
   
   title = responseJSON['title'];
   image = responseJSON['imageData'];
   
-  halt 500, json_error('The websnap could not be processed') unless (responseJSON && image);
+  halt 500, json_error('The websnap could not be processed (missing values in the response)') unless (responseJSON && image);
   
   {:title => title, :image => image}.to_json;
 end
