@@ -33,6 +33,7 @@ page.onError = phantom.onError = function() {
 
 page.open(url, function (status) {
 	if (status !== 'success') {
+		system.stderr.write("There was an unknown error while capturing the page");
 		phantom.exit(1);
 	}
 	
