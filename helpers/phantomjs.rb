@@ -1,6 +1,7 @@
 # This is a simple Ruby interface around the phantomjs process execution.
 # The websnap function returns a Websnap object.
 
+require 'open3'
 require 'json'
 
 module SnapKit

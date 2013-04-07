@@ -14,7 +14,7 @@ system.args.forEach(function (arg, idx, args) {
 })
 
 if (!url) {
-	console.log("Usage: websnap.js -url 'http://google.com' [-viewport-width 768] [-userAgent 'Safari/537.17']");
+	system.stderr.write("Usage: websnap.js -url 'http://google.com' [-viewport-width 768] [-userAgent 'Safari/537.17']");
 	phantom.exit(1);
 }
 
@@ -42,7 +42,7 @@ function snap() {
 		imageData: imageData,
 	};
 	
-	console.log(JSON.stringify(result));
+	system.stdout.write(JSON.stringify(result));
 	phantom.exit(0);
 }
 
