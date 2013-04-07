@@ -16,7 +16,7 @@ module SnapKit
     PHANTOMJS_PATH = (ENV['RACK_ENV'] == 'production') ? 'phantomjs' : File.expand_path('../../vendor/phantomjs/bin/phantomjs', __FILE__);
     CAPTUREJS_PATH = File.expand_path('../phantomjs/capture.js', __FILE__);
     
-    def websnap
+    def websnap()
       parameters = "-url #{@url}"
       parameters << " -viewport-width #{@viewportWidth}" if @viewportWidth
       parameters << " -useragent #{@userAgent}" if @userAgent
