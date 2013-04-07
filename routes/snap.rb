@@ -9,7 +9,7 @@ end
 
 before '/snap' do
   content_type 'application/json';
-  @phantomjs = Phantomjs.new()
+  @phantomjs = SnapKit::Phantomjs.new()
 end
 
 get '/snap' do

@@ -1,26 +1,25 @@
-class Phantomjs
+module SnapKit
   
-  attr_accessor :url
-  attr_accessor :userAgent
-  attr_accessor :viewportWidth
-  
-  def Initialize(url, viewportWidth, userAgent)
-    @url = url;
-    @viewportWidth = viewportWidth;
-    @userAgent = userAgent;
-  end
-  
-  WEBSNAPJS_PATH = File.expand_path('../websnap.js', __FILE__);
-  
-  def websnap
-    parameters = "-url #{@url}"
-    parameters << " -viewport-width #{@viewportWidth}" if @viewportWidth
-    parameters << " -useragent #{@userAgent}" if @userAgent
+  class Phantomjs
     
-    cmd = "phantomjs #{WEBSNAPJS_PATH} #{parameters}"
+    attr_accessor :url
+    attr_accessor :viewportWidth
+    attr_accessor :userAgent
     
-    response = `#{cmd}`;
-    response
+    PHANTOMJS_PATH = (ENV['RACK_ENV'] == 'production') ? 'phantomjs' : File.expand_path('../../vendor/phantomjs/bin/phantomjs', __FILE__);
+    CAPTUREJS_PATH = File.expand_path('../phantomjs/capture.js', __FILE__);
+    
+    def websnap
+      parameters = "-url #{@url}"
+      parameters << " -viewport-width #{@viewportWidth}" if @viewportWidth
+      parameters << " -useragent #{@userAgent}" if @userAgent
+      
+      cmd = "#{PHANTOMJS_PATH} #{CAPTUREJS_PATH} #{parameters}"
+      
+      response = `#{cmd}`;
+      response
+    end
+    
   end
   
 end
