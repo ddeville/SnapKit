@@ -24,10 +24,10 @@ helpers do
     @phantomjs.viewportWidth = params[:viewport_width];
     @phantomjs.userAgent = params[:user_agent];
 
-    @websnap = @phantomjs.websnap();
-    halt 500, json_error("The websnap could not be processed (#{@phantomjs.snappingError})") unless (@websnap && @websnap.image);
+    websnap = @phantomjs.websnap();
+    halt 500, json_error("The websnap could not be processed (#{@phantomjs.snappingError})") unless (websnap && websnap.image);
     
-    @websnap
+    websnap
   end
 end
 
@@ -36,7 +36,7 @@ before '/snap' do
 end
 
 get '/snap' do
-  @websnap = snap(params)
+  @websnap = snap params
   
   if request.accept? 'text/html'
     content_type 'text/html'
