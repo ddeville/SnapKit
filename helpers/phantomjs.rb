@@ -1,4 +1,7 @@
-# This is a simple Ruby interface around the phantomjs process execution
+# This is a simple Ruby interface around the phantomjs process execution.
+# The websnap function returns a Websnap object.
+
+require 'json'
 
 module SnapKit
   
@@ -19,7 +22,14 @@ module SnapKit
       cmd = "#{PHANTOMJS_PATH} #{CAPTUREJS_PATH} #{parameters}"
       
       response = `#{cmd}`;
-      response
+      
+      begin
+        responseJSON = JSON.parse response;
+      rescue JSON::JSONError
+        return nil;
+      end
+      
+      WebSnap.new(responseJSON['title'], responseJSON['imageData']);
     end
     
   end

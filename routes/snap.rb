@@ -1,3 +1,4 @@
+require 'sinatra'
 require 'uri'
 require 'json'
 
@@ -28,18 +29,8 @@ get '/snap' do
   @phantomjs.viewportWidth = params[:viewport_width];
   @phantomjs.userAgent = params[:userAgent];
   
-  response = @phantomjs.websnap();
+  websnap = @phantomjs.websnap();
+  halt 500, json_error('The websnap could not be processed (missing values in the response)') unless (websnap && websnap.image);
   
-  begin
-    responseJSON = JSON.parse response;
-  rescue JSON::JSONError
-    halt 500, json_error('The websnap could not be processed (error parsing)');
-  end
-  
-  title = responseJSON['title'];
-  image = responseJSON['imageData'];
-  
-  halt 500, json_error('The websnap could not be processed (missing values in the response)') unless (responseJSON && image);
-  
-  {:title => title, :image => image}.to_json;
+  {:title => websnap.title, :image => websnap.image}.to_json;
 end
