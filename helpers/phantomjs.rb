@@ -39,6 +39,7 @@ module SnapKit
       begin
         responseJSON = JSON.parse response;
       rescue JSON::JSONError
+        @snappingError = "There was an unknown error while parsing the response from PhantomJS";
         return nil;
       end
       

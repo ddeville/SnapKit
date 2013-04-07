@@ -30,7 +30,7 @@ get '/snap' do
   @phantomjs.userAgent = params[:user_agent];
   
   websnap = @phantomjs.websnap();
-  halt 500, json_error('The websnap could not be processed (missing values in the response)') unless (websnap && websnap.image);
+  halt 500, json_error("The websnap could not be processed (#{@phantomjs.snappingError})") unless (websnap && websnap.image);
   
   {:title => websnap.title, :image => websnap.image}.to_json;
 end
