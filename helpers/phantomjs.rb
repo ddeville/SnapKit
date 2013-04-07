@@ -11,6 +11,8 @@ module SnapKit
     attr_accessor :viewportWidth
     attr_accessor :userAgent
     
+    attr_reader :snappingError
+    
     PHANTOMJS_PATH = (ENV['RACK_ENV'] == 'production') ? 'phantomjs' : File.expand_path('../../vendor/phantomjs/bin/phantomjs', __FILE__);
     CAPTUREJS_PATH = File.expand_path('../phantomjs/capture.js', __FILE__);
     
