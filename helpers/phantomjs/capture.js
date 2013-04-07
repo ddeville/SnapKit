@@ -1,7 +1,7 @@
 /*
 	-url 'http://google.com'
 	-viewport-width 768
-	-useragent 'Safari/537.17'
+	-user-agent 'Safari/537.17'
 */
 var system = require('system');
 
@@ -10,11 +10,11 @@ var url, viewportWidth, viewportHeight, userAgent
 system.args.forEach(function (arg, idx, args) {
 	if (arg === '-url') url = args[idx + 1];
 	if (arg === '-viewport-width') viewportWidth = args[idx + 1];
-	if (arg === '-useragent') userAgent = args[idx + 1];
+	if (arg === '-user-agent') userAgent = args[idx + 1];
 })
 
 if (!url) {
-	system.stderr.write("Usage: websnap.js -url 'http://google.com' [-viewport-width 768] [-userAgent 'Safari/537.17']");
+	system.stderr.write("Usage: websnap.js -url 'http://google.com' [-viewport-width 768] [-user-agent 'Safari/537.17']");
 	phantom.exit(1);
 }
 
@@ -47,6 +47,7 @@ function snap() {
 }
 
 page.onError = phantom.onError = function() {
+	system.stderr.write("There was an unknown error while capturing the page");
 	phantom.exit(1);
 };
 

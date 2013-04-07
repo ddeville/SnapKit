@@ -20,7 +20,7 @@ module SnapKit
     def websnap()
       parameters = "-url #{@url}"
       parameters << " -viewport-width #{@viewportWidth}" if @viewportWidth
-      parameters << " -useragent #{@userAgent}" if @userAgent
+      parameters << " -user-agent #{@userAgent}" if @userAgent
       
       cmd = "#{PHANTOMJS_PATH} #{CAPTUREJS_PATH} #{parameters}"
       
