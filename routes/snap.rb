@@ -1,28 +1,15 @@
-require 'sinatra'
-require 'json'
 require 'uri'
+require 'json'
 
 helpers do
-  WEBSNAPJS_PATH = File.expand_path('../websnap.js', __FILE__);
-  
   def json_error(error)
     {:error => error}.to_json;
   end
 end
 
-before do
+before '/snap' do
   content_type 'application/json';
-end
-
-get '/' do
-  snapRequest = {'snap' => {
-    :method => 'GET',
-    :uri => '/snap',
-    :parameters => [
-        'url', 'viewport_width', 'viewport_height', 'user_agent'
-      ],
-  }};
-  {'requests' => [snapRequest]}.to_json;
+  @phantomjs = Phantomjs.new()
 end
 
 get '/snap' do
@@ -37,14 +24,11 @@ get '/snap' do
   
   halt 400, json_error('The URL is not valid') unless url.kind_of? URI::HTTP;
   
-  parameters = "-url #{url.to_s}"
-  parameters << " -viewport-width #{params[:viewport_width]}" if params[:viewport_width]
-  parameters << " -viewport-height #{params[:viewport_height]}" if params[:viewport_height]
-  parameters << " -useragent #{params[:user_agent]}" if params[:user_agent]
+  @phantomjs.url = url.to_s;
+  @phantomjs.viewportWidth = params[:viewport_width];
+  @phantomjs.userAgent = params[:userAgent];
   
-  cmd = "phantomjs #{WEBSNAPJS_PATH} #{parameters}"
-  
-  response = `#{cmd}`;
+  response = @phantomjs.websnap();
   
   begin
     responseJSON = JSON.parse response;
