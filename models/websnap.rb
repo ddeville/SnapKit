@@ -10,6 +10,10 @@ module SnapKit
       @image = image;
     end
     
+    def to_json()
+      {:title => @title, :image => @image}.to_json;
+    end
+    
   end
   
 end
