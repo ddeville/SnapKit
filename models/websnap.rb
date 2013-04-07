@@ -14,6 +14,10 @@ module SnapKit
       {:title => @title, :image => @image}.to_json;
     end
     
+    def to_xml()
+      {:title => @title, :image => @image}.to_xml;
+    end
+    
   end
   
 end
