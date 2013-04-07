@@ -1,4 +1,4 @@
-# This is a simple Ruby interface around the phantomjs process invocation
+# This is a simple Ruby interface around the phantomjs process execution
 
 module SnapKit
   
