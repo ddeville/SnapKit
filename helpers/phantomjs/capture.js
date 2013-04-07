@@ -1,7 +1,6 @@
 /*
 	-url 'http://google.com'
 	-viewport-width 768
-	-viewport-height 1024
 	-useragent 'Safari/537.17'
 */
 var system = require('system');
@@ -15,29 +14,29 @@ system.args.forEach(function (arg, idx, args) {
 	if (arg === '-viewport-width' && idx < args.length) {
 		viewportWidth = args[idx + 1];
 	}
-	if (arg === '-viewport-height' && idx < args.length) {
-		viewportHeight = args[idx + 1];
-	}
 	if (arg === '-useragent' && idx < args.length) {
 		userAgent = args[idx + 1];
 	}
 })
 
 if (!url) {
-	console.log("Usage: websnap.js -url 'http://google.com' [-viewport-width 768] [-viewport-height 1024] [-userAgent 'Safari/537.17']");
+	console.log("Usage: websnap.js -url 'http://google.com' [-viewport-width 768] [-userAgent 'Safari/537.17']");
 	phantom.exit(1);
 }
 
 viewportWidth = viewportWidth || 1280;
-viewportHeight = viewportHeight || 1024;
 userAgent = userAgent || 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.57 Safari/537.17';
 
 var page = require('webpage').create();
 
-page.viewportSize = {width: viewportWidth, height: viewportHeight};
+page.viewportSize = {width: viewportWidth, height: 1024};
 page.settings.userAgent = userAgent;
 
 function snap() {
+	page.evaluate(function() {
+	    document.body.bgColor = 'white';
+	});
+	
 	var title = page.evaluate(function() {
 		return document.title;
 	});
