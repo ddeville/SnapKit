@@ -1,3 +1,5 @@
+# This is a simple Ruby interface around the phantomjs process invocation
+
 module SnapKit
   
   class Phantomjs
