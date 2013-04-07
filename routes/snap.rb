@@ -27,7 +27,7 @@ get '/snap' do
   
   @phantomjs.url = url.to_s;
   @phantomjs.viewportWidth = params[:viewport_width];
-  @phantomjs.userAgent = params[:userAgent];
+  @phantomjs.userAgent = params[:user_agent];
   
   websnap = @phantomjs.websnap();
   halt 500, json_error('The websnap could not be processed (missing values in the response)') unless (websnap && websnap.image);
