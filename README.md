@@ -1,4 +1,4 @@
-# RemoteSnap
+# SnapKit
 
 Web snapping. In the Cloud.
 
@@ -8,7 +8,7 @@ The app is a simple Sinatra app with a /snap endpoints that uses a phantomjs scr
 
 Create an app:
 ```
-	heroku apps:create remotesnap
+	heroku apps:create snapkit
 ```
 
 Setup the buildpack:
