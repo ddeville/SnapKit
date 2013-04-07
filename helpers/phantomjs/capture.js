@@ -8,15 +8,9 @@ var system = require('system');
 var url, viewportWidth, viewportHeight, userAgent
 
 system.args.forEach(function (arg, idx, args) {
-	if (arg === '-url' && idx < args.length) {
-		url = args[idx + 1];
-	}
-	if (arg === '-viewport-width' && idx < args.length) {
-		viewportWidth = args[idx + 1];
-	}
-	if (arg === '-useragent' && idx < args.length) {
-		userAgent = args[idx + 1];
-	}
+	if (arg === '-url') url = args[idx + 1];
+	if (arg === '-viewport-width') viewportWidth = args[idx + 1];
+	if (arg === '-useragent') userAgent = args[idx + 1];
 })
 
 if (!url) {
