@@ -3,6 +3,7 @@
 	-viewport-width 768
 	-user-agent 'Safari/537.17'
 */
+
 var system = require('system');
 
 var url, viewportWidth, viewportHeight, userAgent
