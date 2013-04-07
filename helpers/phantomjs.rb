@@ -24,7 +24,17 @@ module SnapKit
       
       cmd = "#{PHANTOMJS_PATH} #{CAPTUREJS_PATH} #{parameters}"
       
-      response = `#{cmd}`;
+      stdin, stdout, stderr, wait_thread = Open3.popen3(cmd);
+      
+      response = stdout.read();
+      @snappingError = stderr.read();
+      
+      stdin.close;
+      stdout.close;
+      stderr.close;
+      
+      exit_status = wait_thread.value;
+      return nil unless exit_status == 0
       
       begin
         responseJSON = JSON.parse response;
