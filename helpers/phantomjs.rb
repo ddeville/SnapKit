@@ -8,16 +8,19 @@ module SnapKit
   
   class Phantomjs
     
+    # Inputs
     attr_accessor :url
     attr_accessor :viewportWidth
     attr_accessor :userAgent
     
+    # Results
+    attr_reader :websnap
     attr_reader :snappingError
     
     PHANTOMJS_PATH = (ENV['RACK_ENV'] == 'production') ? 'phantomjs' : File.expand_path('../../vendor/phantomjs/bin/phantomjs', __FILE__);
     CAPTUREJS_PATH = File.expand_path('../phantomjs/capture.js', __FILE__);
     
-    def websnap()
+    def perform()
       parameters = "-url #{@url}"
       parameters << " -viewport-width #{@viewportWidth}" if @viewportWidth
       parameters << " -user-agent #{@userAgent}" if @userAgent
@@ -43,7 +46,7 @@ module SnapKit
         return nil;
       end
       
-      WebSnap.new(responseJSON['title'], responseJSON['imageData']);
+      @websnap = WebSnap.new(responseJSON['title'], responseJSON['imageData']);
     end
     
   end
