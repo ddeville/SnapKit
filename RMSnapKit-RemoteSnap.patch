@@ -1,0 +1,318 @@
+Index: RMSnapKit.xcodeproj/project.pbxproj
+===================================================================
+--- RMSnapKit.xcodeproj/project.pbxproj	(revision 482)
++++ RMSnapKit.xcodeproj/project.pbxproj	(working copy)
+@@ -54,6 +54,8 @@
+ 		6D94060415B06A4000F7947C /* RMSnapCountdownWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D94060215B06A4000F7947C /* RMSnapCountdownWindow.xib */; };
+ 		6D94099415B0A74600F7947C /* RMFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D94098115B0A72000F7947C /* RMFoundation.framework */; };
+ 		6D94099515B0A74900F7947C /* RMHotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D94098F15B0A72600F7947C /* RMHotKey.framework */; };
++		6D9EA0B51710BD8D00474F3C /* _RMWebSnapRemoteOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D9EA0B31710BD8D00474F3C /* _RMWebSnapRemoteOperation.h */; };
++		6D9EA0B61710BD8D00474F3C /* _RMWebSnapRemoteOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9EA0B41710BD8D00474F3C /* _RMWebSnapRemoteOperation.m */; };
+ 		6DB6F47515AD8C1500B3AC05 /* RMSnapResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DB6F47315AD8C1400B3AC05 /* RMSnapResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+ 		6DB6F47615AD8C1500B3AC05 /* RMSnapResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB6F47415AD8C1400B3AC05 /* RMSnapResult.m */; };
+ 		6DB6F47715AD8D3D00B3AC05 /* RMWebSnapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D0B51FB154ECB14003E8695 /* RMWebSnapper.h */; settings = {ATTRIBUTES = (); }; };
+@@ -264,6 +266,8 @@
+ 		6D94060315B06A4000F7947C /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "en-GB"; path = "en-GB.lproj/RMSnapCountdownWindow.xib"; sourceTree = "<group>"; };
+ 		6D94097815B0A72000F7947C /* RMFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RMFoundation.xcodeproj; path = ../RMFoundation/RMFoundation.xcodeproj; sourceTree = "<group>"; };
+ 		6D94098A15B0A72600F7947C /* RMHotKey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RMHotKey.xcodeproj; path = ../RMHotKey/RMHotKey.xcodeproj; sourceTree = "<group>"; };
++		6D9EA0B31710BD8D00474F3C /* _RMWebSnapRemoteOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _RMWebSnapRemoteOperation.h; sourceTree = "<group>"; };
++		6D9EA0B41710BD8D00474F3C /* _RMWebSnapRemoteOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _RMWebSnapRemoteOperation.m; sourceTree = "<group>"; };
+ 		6DB6F47215AD8A1500B3AC05 /* RMSnapKitTester.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = RMSnapKitTester.entitlements; sourceTree = "<group>"; };
+ 		6DB6F47315AD8C1400B3AC05 /* RMSnapResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMSnapResult.h; sourceTree = "<group>"; };
+ 		6DB6F47415AD8C1400B3AC05 /* RMSnapResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMSnapResult.m; sourceTree = "<group>"; };
+@@ -468,6 +472,8 @@
+ 				6D80ABBC171033E8002B860F /* RMWebSnapOperation+Private.h */,
+ 				6D80ABB81710336E002B860F /* _RMWebSnapTaskOperation.h */,
+ 				6D80ABB91710336E002B860F /* _RMWebSnapTaskOperation.m */,
++				6D9EA0B31710BD8D00474F3C /* _RMWebSnapRemoteOperation.h */,
++				6D9EA0B41710BD8D00474F3C /* _RMWebSnapRemoteOperation.m */,
+ 			);
+ 			name = "Private (Web Snap)";
+ 			sourceTree = "<group>";
+@@ -627,6 +633,7 @@
+ 				6D0A9B6816A02A2700A86061 /* RMScreenSnapAreaSelectionControlView.h in Headers */,
+ 				6D80ABBA1710336E002B860F /* _RMWebSnapTaskOperation.h in Headers */,
+ 				6D80ABBD171033E8002B860F /* RMWebSnapOperation+Private.h in Headers */,
++				6D9EA0B51710BD8D00474F3C /* _RMWebSnapRemoteOperation.h in Headers */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -900,6 +907,7 @@
+ 				6D0A9B5916A020D000A86061 /* RMScreenSnapWindowSelectionView.m in Sources */,
+ 				6D0A9B6916A02A2700A86061 /* RMScreenSnapAreaSelectionControlView.m in Sources */,
+ 				6D80ABBB1710336E002B860F /* _RMWebSnapTaskOperation.m in Sources */,
++				6D9EA0B61710BD8D00474F3C /* _RMWebSnapRemoteOperation.m in Sources */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+Index: RMWebSnapOperation.m
+===================================================================
+--- RMWebSnapOperation.m	(revision 482)
++++ RMWebSnapOperation.m	(working copy)
+@@ -9,6 +9,7 @@
+ #import "RMWebSnapOperation.h"
+ 
+ #import "_RMWebSnapTaskOperation.h"
++#import "_RMWebSnapRemoteOperation.h"
+ 
+ #import "RMWebSnapOperation+Private.h"
+ 
+@@ -28,7 +29,11 @@
+ 	self = [self init];
+ 	NSParameterAssert(self != nil);
+ 	
++#if 0
+ 	_RMWebSnapTaskOperation *webSnapOperation = [[_RMWebSnapTaskOperation alloc] _initInternalWithSnapURL:snapURL snapWidth:snapWidth];
++#else
++	_RMWebSnapRemoteOperation *webSnapOperation = [[_RMWebSnapRemoteOperation alloc] _initInternalWithSnapURL:snapURL snapWidth:snapWidth];
++#endif
+ 	
+ 	return webSnapOperation;
+ }
+Index: _RMWebSnapRemoteOperation.h
+===================================================================
+--- _RMWebSnapRemoteOperation.h	(revision 0)
++++ _RMWebSnapRemoteOperation.h	(working copy)
+@@ -0,0 +1,13 @@
++//
++//  _RMWebSnapRemoteOperation.h
++//  RMSnapKit
++//
++//  Created by Damien DeVille on 06/04/2013.
++//  Copyright (c) 2013 Realmac Software. All rights reserved.
++//
++
++#import <RMSnapKit/RMSnapKit.h>
++
++@interface _RMWebSnapRemoteOperation : RMWebSnapOperation
++
++@end
+Index: _RMWebSnapRemoteOperation.m
+===================================================================
+--- _RMWebSnapRemoteOperation.m	(revision 0)
++++ _RMWebSnapRemoteOperation.m	(working copy)
+@@ -0,0 +1,224 @@
++//
++//  _RMWebSnapRemoteOperation.m
++//  RMSnapKit
++//
++//  Created by Damien DeVille on 06/04/2013.
++//  Copyright (c) 2013 Realmac Software. All rights reserved.
++//
++
++#import "_RMWebSnapRemoteOperation.h"
++
++#import "RMFoundation/RMFoundation.h"
++
++#import "RMSnapResult.h"
++
++#import "RMSnapKit-Constants.h"
++
++#import "RMWebSnapOperation+Private.h"
++
++static NSString * const _RMWebSnapRemoteAPIEndPoint = @"http://snapkit.heroku.com/snap";
++
++static NSString * const _RMWebSnapRemoteAPIEndPointURLParameter = @"url";
++static NSString * const _RMWebSnapRemoteAPIEndPointWidthParameter = @"viewport_width";
++
++static NSString * const _RMWebSnapRemoteAPIEndPointTitleResponseKey = @"title";
++static NSString * const _RMWebSnapRemoteAPIEndPointImageResponseKey = @"image";
++
++@interface _RMWebSnapRemoteOperation ()
++
++@property (assign, atomic) BOOL isExecuting, isFinished;
++
++@property (strong, nonatomic) NSOperationQueue *controlQueue;
++@property (strong, nonatomic) NSOperationQueue *connectionQueue;
++
++@property (strong, atomic) NSURLConnection *connection;
++@property (strong, atomic) NSURLResponse *response;
++
++@property (strong, nonatomic) NSMutableData *responseData;
++
++@end
++
++@implementation _RMWebSnapRemoteOperation
++
++static NSString * const _RMWebSnapRemoteOperationIsExecutingKey = @"isExecuting";
++static NSString * const _RMWebSnapRemoteOperationIsFinishedKey = @"isFinished";
++
++- (id)initWithSnapURL:(NSURL *)snapURL snapWidth:(CGFloat)snapWidth
++{
++	@throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"You should not call this method on the subclass" userInfo:nil];
++	return nil;
++}
++
++- (id)_initInternalWithSnapURL:(NSURL *)snapURL snapWidth:(CGFloat)snapWidth
++{
++	self = [super _initInternalWithSnapURL:snapURL snapWidth:snapWidth];
++	if (self == nil) {
++		return nil;
++	}
++	
++	_controlQueue = [[NSOperationQueue alloc] init];
++	[_controlQueue setName:[RMSnapKitBundleIdentifier stringByAppendingKeyPath:@"websnap-remote-control"]];
++	[_controlQueue setMaxConcurrentOperationCount:1];
++	
++	_connectionQueue = [[NSOperationQueue alloc] init];
++	[_connectionQueue setName:[RMSnapKitBundleIdentifier stringByAppendingKeyPath:@"websnap-remote-connection"]];
++	[_connectionQueue setMaxConcurrentOperationCount:1];
++	
++	return self;
++}
++
++- (BOOL)isConcurrent
++{
++	return YES;
++}
++
++- (void)start
++{
++	[[self controlQueue] addOperationWithBlock:^ {
++		if ([self isCancelled]) {
++			[self _finish];
++			return;
++		}
++		
++		[self willChangeValueForKey:_RMWebSnapRemoteOperationIsExecutingKey];
++		[self setIsExecuting:YES];
++		[self didChangeValueForKey:_RMWebSnapRemoteOperationIsExecutingKey];
++		
++		NSString *requestURL = [_RMWebSnapRemoteAPIEndPoint stringByAppendingFormat:@"?%@=%@", _RMWebSnapRemoteAPIEndPointURLParameter, [[self snapURL] absoluteString]];
++		if ([self snapWidth] > 0) {
++			requestURL = [requestURL stringByAppendingFormat:@"&%@=%lu", _RMWebSnapRemoteAPIEndPointWidthParameter, (NSUInteger)[self snapWidth]];
++		}
++		
++		NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:requestURL]];
++		
++		NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
++		[self setConnection:connection];
++		
++		[connection setDelegateQueue:[self connectionQueue]];
++		[connection start];
++	}];
++}
++
++- (void)cancel
++{
++	[[self controlQueue] addOperationWithBlock:^ {
++		NSURLConnection *connection = [self connection];
++		if (connection != nil) {
++			NSOperation *connectionDidFinishOperation = [NSBlockOperation blockOperationWithBlock:^ {
++				[self _connectionDidFinish];
++			}];
++			[[self connectionQueue] addOperation:connectionDidFinishOperation];
++		}
++		
++		[super cancel];
++	}];
++	
++	[super cancel];
++}
++
++#pragma mark - Private
++
++- (void)_failWithError:(NSError *)error
++{
++	[self setCompletionProvider:^ RMSnapResult * (NSError **errorRef) {
++		if (errorRef != NULL) {
++			NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
++			[userInfo setValue:NSLocalizedStringFromTableInBundle(@"There was an unknown error while creating a web snap", nil, [NSBundle bundleWithIdentifier:RMSnapKitBundleIdentifier], @"RMWebSnapOperation unknown error") forKey:NSLocalizedDescriptionKey];
++			[userInfo setValue:error forKey:NSUnderlyingErrorKey];
++			*errorRef = [NSError errorWithDomain:RMSnapKitBundleIdentifier code:RMSnapKitWebSnapUnknownError userInfo:userInfo];
++		}
++		return nil;
++	}];
++	
++	[self _connectionDidFinish];
++}
++
++- (void)_connectionDidFinish
++{
++	[[self connection] cancel];
++	[self setConnection:nil];
++	
++	[self _finish];
++}
++
++- (void)_finish
++{
++	[self willChangeValueForKey:_RMWebSnapRemoteOperationIsExecutingKey];
++	[self setIsExecuting:NO];
++	[self didChangeValueForKey:_RMWebSnapRemoteOperationIsExecutingKey];
++	
++	[self willChangeValueForKey:_RMWebSnapRemoteOperationIsFinishedKey];
++	[self setIsFinished:YES];
++	[self didChangeValueForKey:_RMWebSnapRemoteOperationIsFinishedKey];
++}
++
++#pragma mark - NSURLConnectionDelegate
++
++- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
++{
++	[self setResponse:response];
++	
++	NSMutableData *responseData = [NSMutableData data];
++	[self setResponseData:responseData];
++}
++
++- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
++{
++	[[self responseData] appendData:data];
++}
++
++- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
++{
++	[self _failWithError:error];
++}
++
++- (void)connectionDidFinishLoading:(NSURLConnection *)connection
++{
++	NSHTTPURLResponse *response = (NSHTTPURLResponse *)[self response];
++	
++	if ([response statusCode] < 200 || [response statusCode] > 299) {
++		[self _failWithError:nil];
++		return;
++	}
++	
++	NSData *responseData = [self responseData];
++	
++	NSError *serializationError = nil;
++	id responseJSON = [NSJSONSerialization JSONObjectWithData:responseData options:(NSJSONReadingOptions)0 error:&serializationError];
++	
++	if (responseJSON == nil) {
++		[self _failWithError:serializationError];
++		return;
++	}
++	
++	NSString *title = responseJSON[_RMWebSnapRemoteAPIEndPointTitleResponseKey];
++	NSString *encodedImage = responseJSON[_RMWebSnapRemoteAPIEndPointImageResponseKey];
++	
++	NSData *imageData = [NSData dataWithBase64String:encodedImage];
++	
++	if (imageData == nil) {
++		[self _failWithError:nil];
++		return;
++	}
++	
++	NSBitmapImageRep *imageRepresentation = [[NSBitmapImageRep alloc] initWithData:imageData];
++	
++	if (imageRepresentation == nil) {
++		[self _failWithError:nil];
++		return;
++	}
++	
++	RMWebSnapImage *webSnapImage = [[RMWebSnapImage alloc] init];
++	[webSnapImage setName:title];
++	[webSnapImage setURL:[self snapURL]];
++	[webSnapImage setImageRepresentation:imageRepresentation];
++	RMSnapResult *snapResult = [RMSnapResult snapResultWithImages:@[webSnapImage]];
++	
++	[self setCompletionProvider:^ RMSnapResult * (NSError **errorRef) {
++		return snapResult;
++	}];
++	
++	[self _connectionDidFinish];
++}
++
++@end
