@@ -1,12 +1,20 @@
-# RemoteSnap
+# SnapKit
 
 Web snapping. In the Cloud.
+
+The app is a simple Sinatra app with a /snap endpoints that uses a phantomjs script to obtain a capture of a webpage given a URL and a viewport width.
+
+Run the app locally with Foreman. Just do
+```
+foreman start
+```
+and the app will be available on localhost:5000.
 
 ## Heroku
 
 Create an app:
 ```
-	heroku apps:create remotesnap
+	heroku apps:create snapkit
 ```
 
 Setup the buildpack:
